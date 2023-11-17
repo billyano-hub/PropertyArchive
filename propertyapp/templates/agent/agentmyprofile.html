@@ -1,0 +1,59 @@
+{% extends "agent/agenthome_layout.html"%}
+{% block pro%}
+<div class="container">
+
+  <div class="row justify-content-center">
+
+
+  
+    <div class="col-md-12 mt-5 text-info">  
+        <h4>Personal information</h4>
+    </div>
+    <div>
+        <form enctype="multipart/form-data" method="post">
+            {{apform.csrf_token}}
+            {% if apform.fullname.errors%}
+        <div class="alert alert-danger">{{apform.fullname.errors}}</div>
+        {%endif%}
+            <div class="mb-3 col-md-6">
+                {{apform.fullname.label}}
+                {{apform.fullname(class_="form-control border-success",value=agentdeets.agent_fullname)}}
+            </div>
+            {% if apform.email.errors%}
+            <div class="alert alert-danger">{{apform.email.errors}}</div>
+            {%endif%}
+                <div class="mb-3 col-md-6">
+                    {{apform.email.label}}
+                    {{apform.email(class_="form-control border-success",value=agentdeets.agent_email)}}
+                </div>
+                {#<div class="mb-3 col-md-6">
+                    {{apform.phoneno.label}}
+                    {{apform.phone(class_="form-control border-success")}}
+                </div>
+                <div class="mb-3 col-md-6">
+                    {{apform.agentno.label}}
+                    {{apform.agentno(class_="form-control border-success")}}
+                </div>
+                <div class="mb-3 col-md-6">
+                    {{apform.email.label}}
+                    {{apform.email(class_="form-control border-success")}}
+                </div>#}
+                
+               
+                
+            <div class="mb-3 col-md-6">
+                {{apform.btncancel(class_="btn btn-dark no round")}}
+
+                {{apform.btnsubmit(class_="btn btn-danger no round")}}
+            </div>
+            
+
+        </form>
+    </div>
+</div>
+</div>
+            
+
+
+
+{% endblock pro%}

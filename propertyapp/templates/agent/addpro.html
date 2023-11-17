@@ -1,0 +1,93 @@
+{% extends "agent/agenthome_layout.html"%}
+{%block pro%}
+<main>
+  
+  <div class="container-fluid px-4">
+    {{cats}}
+                        <h1 class="mt-5">Add Property</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="{{url_for('agentdashboard')}}"></a>Dashboard</li>
+                              <li class="breadcrumb-item active">Add property</li>
+                        </ol>
+                      <div class="row">
+                          <div class="col">
+                              
+                               <form action="" method="Post" enctype="multipart/form-data">
+                                <input type="hidden" value="{{csrf_token()}}" name="csrf_token">
+          <div class="mb-3">
+            <label for="title" class="form-label">Property Title</label>
+            <input type="text" class="form-control" id="title" name="title">
+             
+          </div>
+          <div class="mb-3">
+            <label for="author" class="form-label">Category</label>
+            
+            <select type="text" class="form-control" id="category" name="category">
+                <option>Please select</option>
+                {% for c in cats%}
+                <option value="{{c.cat_id}}">{{c.cat_name}}</option>
+                {% endfor %}
+            </select>
+          </div>
+           
+          <fieldset class="mb-3">
+            <legend>Status</legend>
+            <div class="form-check">
+              <input type="radio" name="status"  class="form-check-input" id="exampleRadio1" name="publish" value="1" {%if deets.property_status=="0"%}checked="checked"{%endif%}>
+              <label class="form-check-label" for="exampleRadio1">Publish</label>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="radio" name="status" class="form-check-input" id="exampleRadio2" value="0" {%if deets.property_status =="0"%}checked="checked"{%endif%}>
+              <label class="form-check-label" for="exampleRadio2">Do Not Publish</label>
+            </div> 
+          </fieldset>--
+          <div class="mb-3">
+            <label class="form-label" for="customFile">Upload Cover</label>
+            <input type="file" class="form-control" id="customFile" name="cover">
+          </div>
+           <div class="mb-3">
+            <label class="form-label" for="customFile">Description</label>
+         <textarea name="description" id="description" class="form-control"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="yearpub">Date of publication</label>
+            <input class="form-control" name="yearpub" id="yearpub">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="type">Listing Type</label>
+            <input class="form-control" name="type" id="type">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="beds">Number of beds</label>
+            <input class="form-control" name="beds" id="beds" type="number">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="baths">Number of Bathroom(s)</label>
+            <input class="form-control" name="baths" id="baths" type="number">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="garage">Number of Garage(s)</label>
+            <input class="form-control" name="garage" id="garage" type="number">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="location">Location/Address</label>
+            <input class="form-control" name="location" id="location">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="price">Price/Amount</label>
+            <input class="form-control" name="price" id="price">
+          </div>
+          
+         
+          <button type="submit" class="btn btn-danger">Add Property</button>
+        </form>
+
+
+                          </div>
+                      </div>
+                        
+                    </div>
+
+
+                </main>
+{% endblock pro%}

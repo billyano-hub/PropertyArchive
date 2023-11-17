@@ -1,0 +1,75 @@
+{% extends "user/home_layout.html"%}
+{%block style%}
+<style>
+    
+  .img1{
+   min-height:200px;
+    min-width:50%;
+  }
+  #reg{
+    color:#ED173e;
+
+
+  }
+</style>
+<!-- Custom styles for this template -->
+<link href="/static/sign-in.css" rel="stylesheet">
+
+{% endblock style%}
+{%block body%}class="text-center"{%endblock body%}
+{% block pro%}
+      <main class="form-signin w-100 m-auto text-center">
+      
+
+      <h1 class="h3 mb-3 fw-normal px-5" id="reg">Register Here As A User!</h1>
+      
+      <div class="card-body col-md-12">
+      <form method="POST" action="">
+        <div class="row">
+          <div class="col-md-6">
+            <img class="mt-5 img1" src="/static/images/pa.png.png" alt="" height="100">
+
+          </div>
+          <div class="col-md-6">
+
+              <div class="form-floating mb-3">
+                  {{regform.fullname(class_="form-control",placeholder="Enter your firstname")}}
+                  {{regform.fullname.label}}
+              </div>
+              <div class="form-floating mb-3">
+                  {{regform.email(class_="form-control",placeholder="name@example.com")}}
+                  {{regform.email.label}}
+              </div>
+              
+                  <div class="form-floating mb-3">
+                    {{regform.pwd(class_="form-control",placeholder="Enter your password")}}
+                {{regform.pwd.label}}
+                  </div>
+                  <div class="form-floating mb-3">
+                    {{regform.confpwd(class_="form-control",placeholder="confirm password")}}
+                    {{regform.confpwd.label}}
+                    {{regform.hidden_tag()}}      
+                </div>
+                <h6>  Already have an Account, Sign in!. <br><a href="#">User</a> 
+                  <a href="#">Agent</a></h6>
+                <h6> By clicking on Create Account!, you agree to the <a href="#">Terms</a> of use.</h6> 
+                <div class="mt-4 mb-0">
+                  <div class="d-grid">   
+                    {{regform.btnsubmit(class_="btn btn-danger btn-block btn-lg")}}
+                  </div>
+                </div>
+                <div>
+                </div>
+              </div>
+          </div>
+          
+      </div>
+        
+      </form>     
+      </div>
+
+      </main>
+{% endblock pro%}
+
+    
+ 
