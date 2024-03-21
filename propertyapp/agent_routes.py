@@ -46,10 +46,12 @@ def editpro(id):
             db.session.commit()
             flash('property details was updated')
             return redirect("/agent/prolist/")
+        
 def generate_string(howmany):
     x=random.sample(string.ascii_lowercase,howmany)
     return ''.join(x)
-@app.route("/admin/delete/<id>/")
+
+@app.route("/agent/delete/<id>/")
 def property_delete(id):
     property=db.session.query(Property).get_or_404(id)
     #lets get the name of the file attached to this property
@@ -61,24 +63,29 @@ def property_delete(id):
     db.session.commit()
     flash("property has been deleted!")
     return redirect(url_for("prolist"))
+
 @app.route("/agent/prolist/")
 def prolist():
-    if session.get("agentloggedin")==None:
-        return redirect(url_for('log'))
-    else:
+    # if session.get("agentloggedin")==None:
+    #     return redirect(url_for('log'))
+    # else:
+    #     agent = Agent.query.filter_by(property_agentid=agent_id).first()
+    #     agent_properties = agent.properties
+
+        
+        return render_template("agent/propertylist.html")
+        
     
-        pros = db.session.query(Property).all()
-        return render_template("agent/propertylist.html",pros=pros)
 @app.route('/agent/addpro',methods=['GET','POST'])
 def addpro():
     if session.get("agentloggedin")==None:#means he is not logged in'
         return redirect(url_for('log'))
     else:
         if request.method=="GET":
-            deets=db.session.query(Property).filter(Property.property_status).first_or_404()
+            # deets=db.session.query(Property).filter(Property.property_status).first_or_404()
 
             cats=db.session.query(Category).all()
-            return render_template("agent/addpro.html",cats=cats,deets=deets)
+            return render_template("agent/addpro.html",cats=cats)
         else:
             # retrieve file
             allowed=['jpg','png']
@@ -120,7 +127,8 @@ def addpro():
             else:
                 flash("Please try again")
             #  return 'done'
-            return redirect(url_for("addpro"))
+            return redirect(url_for("prolist"))
+
 @app.route("/agent/profile", methods=["GET","POST"])
 def agentprofile():
     id= session.get("agentloggedin")
@@ -144,7 +152,7 @@ def agentprofile():
 def agentdashboard():
     return render_template("agent/agentdashboard.html")
 @app.route("/agent/chgpwd/")
-def agentcnangepassword():
+def changepassword():
     return render_template("agent/agentchgpassword.html")
 
 @app.route("/agent/logout")
@@ -172,9 +180,12 @@ def agentlogout():
 #             return render_template("agent/agentprofile.html",agentpform=agentpform,agentdeets=agentdeets)
 
 
+
 @app.route("/agent/login/", methods=['POST','GET'])
 def log():
     if request.method=="GET":
+        if session.get('agentloggedin'):
+            return redirect('/agent/dashboard')
         return render_template('agent/agentloginpage.html')
     else:
         email=request.form.get('email')
@@ -193,29 +204,36 @@ def log():
             return redirect('/agent/login/')
 
 
-
-@app.route("/agent/agentreg/", methods=['GET','POST'])
+@app.route("/agent/agentreg/", methods=['GET', 'POST'])
 def signup():
-    agform=AgentRegForm()
-    if request.method=='GET':
-        return render_template("agent/agentsignup.html",agform=agform)
+    agform = AgentRegForm()
+
+    if request.method == 'GET':
+        if session.get('agentloggedin'):
+            return redirect('/agent/dashboard')
+        return render_template("agent/agentsignup.html", agform=agform)
     else:
         if agform.validate_on_submit():
-             fullname=request.form.get('fullname')
-             email=request.form.get('email')
-             pwd=request.form.get('pwd')
-             
-             hashed_pwd=generate_password_hash(pwd)
+            fullname = request.form.get('fullname')
+            email = request.form.get('email')
+            pwd = request.form.get('pwd')
 
-             
-             a =Agent(agent_fullname=fullname,agent_email=email,agent_pwd=hashed_pwd)
-            #  user_pwd=hashed_pwd
-             db.session.add(a)
-             db.session.commit()
-             flash(f"{fullname.capitalize()} account has been created for you.Please login",category="success")
-             return redirect(url_for('log'))
-        
+            # Check if the email already exists in the database
+            existing_agent = Agent.query.filter_by(agent_email=email).first()
+            if existing_agent:
+                flash("Email already exists! Please log in.", category='info')
+                return render_template('agent/agentsignup.html', agform=agform)
+
+            hashed_pwd = generate_password_hash(pwd)
+            new_agent = Agent(agent_fullname=fullname, agent_email=email, agent_pwd=hashed_pwd)
+            db.session.add(new_agent)
+            db.session.commit()
+
+            flash(f"{fullname.capitalize()} account has been created for you. Please log in", category="success")
+            return redirect(url_for('log'))
         else:
-            return render_template('agent/agentsignup.html',agform=agform)
+            flash("Invalid form data. Please try again.", category='danger')
+            return render_template('agent/agentsignup.html', agform=agform)
+
     # regform=RegForm()
     # return render_template('user/signup.html',regform=regform)

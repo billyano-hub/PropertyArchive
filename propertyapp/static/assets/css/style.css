@@ -622,7 +622,9 @@ a:hover {
 .navbar-default.navbar-reduce {
   box-shadow: 1px 2px 15px rgba(100, 100, 100, 0.3);
 }
-
+.anchor{
+  text-decoration: none;
+}
 .navbar-default.navbar-trans,
 .navbar-default.navbar-reduce {
   -webkit-backface-visibility: hidden;

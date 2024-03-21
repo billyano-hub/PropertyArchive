@@ -52,90 +52,40 @@
         </div>
       </div>
     </div>
-    {#<div class="row row-cols-1 row-cols-lg-4 align-items-stretch g-4 py-5">
+    <div class="row row-cols-1 row-cols-lg-4 align-items-stretch g-4 py-5">
       {%if pros%}
-      {% for book in pros%}
+      {% for pro in pros%}
+      
       <div class="col">
-        <a href="#">
-            <img src="/static/uploads/{{book.property_cover}}" class="img-fluid bk" alt="">
-        </a>
-        {{pros}}
-
-        <div class="deets"><h6>{{book.property_title}} </h6>
-       <p><i>{{book.catdeets.cat_name}}</i></p>
-       <p><a href="">{{book.property_title}}</a></p>    
+        <a href="{{url_for('pro_details',id=pro.property_id)}}" class="anchor">
+            <img src="/static/uploads/{{pro.property_cover}}" class="img-fluid bk" alt="">
+            <span class="card-title-a">
+              <a href="#" class="text-dark anchor">{{pro.property_location}}
+                </a>
+              </span>
+          
+          <div class="card-body-a">
+            <div class="price-box d-flex">
+              <a href="{{url_for('pro_details',id=pro.property_id)}}" class="price-a text-bg-danger anchor">{{pro.catdeets.cat_name}} | {{pro.property_price}} | {{pro.property_beds}} beds</a>
+              
+                
+              </a>
+            </div>
+            
+            
           </div>
+        
+           
+          
+        </a>
+
+         
+          
          </div>
         {%endfor%}
         {% endif%}
-        </div>#}
-        {%if pros%}
-        {% for pro in pros%}
-        {{pro}}
-    <div id="property-carousel" class="swiper">
-      
-      
-      <div class="swiper-wrapper">
-       
-        <div class="carousel-item-b swiper-slide">
-       
-          <div class="card-box-a card-shadow">
-            <div class="img-box-a">
-              {{pro.property_title}}
-              <a href="#">
-
-              <img src="/static/uploads/{{pro.property_cover}}" alt="" class="img-a img-fluid">
-              </a>
-            </div>
-                        
-            <div class="card-overlay">
-              <div class="card-overlay-a-content">
-                <div class="card-header-a">
-                  <h2 class="card-title-a">
-                    <a href="#">{{pro.property_location}}
-                      </a>
-                  </h2>
-                </div>
-                <div class="card-body-a">
-                  <div class="price-box d-flex">
-                    <span class="price-a">{{pro.catdeets.cat_name}} | {{pro.property_price}}</span>
-                  </div>
-                  <a href="{{url_for('pro_details',id=pro.property_id)}}" class="link-a">Click here to view
-                    <span class="bi bi-chevron-right"></span>
-                  </a>
-                </div>
-                <div class="card-footer-a">
-                  <ul class="card-info d-flex justify-content-around">
-                   
-                    <li>
-                      <h4 class="card-info-title">Beds</h4>
-                      <span>{{pro.property_beds}}</span>
-                    </li>
-                    <li>
-                      <h4 class="card-info-title">Baths</h4>
-                      <span>{{pro.property_garage}}</span>
-                    </li>
-                    <li>
-                      <h4 class="card-info-title">Garages</h4>
-                      <span>{{pro.property_garage}}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
-
-        <!-- End carousel item -->
-
-
-        
-      </div>
-    
-    </div>
-    {%endfor%}
-    {%endif%}
     <div class="propery-carousel-pagination carousel-pagination"></div>
   </div>
 </section><!-- End Latest Properties Section -->

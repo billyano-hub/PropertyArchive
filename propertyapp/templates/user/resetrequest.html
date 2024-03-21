@@ -1,0 +1,51 @@
+{% extends "user/home_layout.html"%}
+{% block pro%}   
+
+       
+<main class="form-signin w-100 m-auto text-dark py-5">
+
+<div class="container col-md-6 px-4 py-5" >
+ 
+  {% set m = get_flashed_messages(with_categories=True) %}
+  {%if m: %}
+  {% for cat,msg in m %}
+      {% if cat == "error" %}
+      <div class="alert alert-danger text-center">{{msg}} </div>
+      {% else %}
+      <div class="alert alert-info text-center">{{msg}} </div>
+      {%endif%}
+  {%endfor %}
+  {%endif%}
+  <!-- content begins -->    
+ 
+
+ 
+
+<form action="", method="post"> 
+  <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+  <div class="form-floating mb-3">
+      <input type="email" class="form-control" name="email" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">Email address</label>
+    </div>
+     
+    <button class="w-100 btn btn-lg btn-danger" type="submit">RESET</button>
+    
+  </form>
+
+
+
+
+<!-- content ends-->
+  </div>
+
+ 
+
+
+<!-- end more content-->
+
+</main>
+
+ {#<script src="/static/assets/dist/js/bootstrap.bundle.min.js"></script>#}
+
+      
+{% endblock pro%}

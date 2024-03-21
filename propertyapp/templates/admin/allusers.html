@@ -1,0 +1,85 @@
+{%extends "admin/adminlayout.html"%}
+{% block main%}
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">All Users</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item"><a href="{{url_for('admin_dashboard')}}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Tables</li>
+                        </ol>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <a href="{{url_for('addpro')}}" class="btn btn-outline-primary">Add Users</a>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            
+                            <div class="card-body">
+                            {%if users%}
+                         <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">User's Name</th>
+                                <th scope="col">Email Address</th>
+                                
+                                <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for user in users%}
+                                <tr>
+                                <th scope="row">{{loop.index}}</th>
+                                <td>{{user.user_fullname}}</td>
+                                <td>{{user.user_email}}</td>
+                                
+                                <td>
+                                    <a href="{{url_for('user_delete',id=user.user_id)}}" class="btn btn-sm btn-danger">Delete</a> 
+                                   
+                                </td>
+                                </tr>
+                                {% endfor%}
+                            </tbody>
+                            </table>
+                            {%else%}
+                            <div class="aler alert-info">NO USER FOUND<a href="{{url_for('register')}}" class="alert-link">CLICK HERE TO ADD A USER</a></div>
+                            {% endif%}
+                                                        </div>
+                                                    </div>
+                                
+                            <div class="card mb-4">
+
+                                <div class="card-body">
+                                {%if agents%}
+                                <table class="table">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Agent's Name</th>
+                                    <th scope="col">Email Address</th>
+                                    <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for agent in agents%}
+                                    <tr>
+                                    <th scope="row">{{loop.index}}</th>
+                                    <td>{{agent.agent_fullname}}</td>
+                                    <td>{{agent.agent_email}}</td>
+
+                                    <td> 
+                                        <a href="{{url_for('agent_delete',id=agent.agent_id)}}" class="btn btn-sm btn-danger">Delete</a> 
+                                        
+                                    </td>
+                                    </tr>
+                                    {% endfor%}
+                                </tbody>
+                                </table>
+                                {%else%}
+                                <div class="aler alert-info">NO AGENTFOUND<a href="{{url_for('signup')}}" class="alert-link">CLICK HERE TO ADD AN AGENT</a></div>
+                                {% endif%}
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </main>
+                            {%endblock main%}

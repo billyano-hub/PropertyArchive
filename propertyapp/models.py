@@ -1,5 +1,9 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.associationproxy import association_proxy
+from itsdangerous import URLSafeTimedSerializer as Serializer
+from propertyapp import *
+
 
 db=SQLAlchemy()
 class State(db.Model):
@@ -26,8 +30,13 @@ class Property(db.Model):
     property_garage=db.Column(db.String(10),nullable=True)
     property_location=db.Column(db.Text()) 
     property_price=db.Column(db.String(120),nullable=True)
+   # property_agentid = db.Column(db.Integer, db.ForeignKey('property_agentid'), nullable=False)
+    
+    property_agentid = db.Column(db.Integer, db.ForeignKey('agent.agent_id'))
+
     #set relationships
     catdeets = db.relationship("Category", back_populates="propertydeets")
+    
 
 class Category(db.Model):
     cat_id=db.Column(db.Integer, autoincrement=True,primary_key=True)
@@ -50,14 +59,26 @@ class User(db.Model):
     
     #set relationship    
     user_reviews=db.relationship("Reviews",back_populates='reviewby') 
+    def get_token(self,expires_sec=3600):
+        serial = Serializer(app.config['SECRET_KEY'],expires_sec)
+        return serial.dumps({'user_id:user.user_id'}).decode('utf-8')
+    
+    @staticmethod
+    def verify_token(token):
+        serial =Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id=serial.loads(token)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
 
 class Reviews(db.Model):
     rev_id = db.Column(db.Integer, autoincrement=True,primary_key=True)
     rev_title = db.Column(db.String(255),nullable=False)
     rev_text = db.Column(db.String(255),nullable=False)
     rev_date =db.Column(db.DateTime(), default=datetime.utcnow)
-    rev_userid = db.Column(db.Integer, db.ForeignKey('user.user_id'),nullable=False)  
-    rev_agentid =db.Column(db.Integer, db.ForeignKey('agent.agent_id'),nullable=False)  
+    rev_userid = db.Column(db.Integer, db.ForeignKey('user.user_id'))  
+    rev_agentid =db.Column(db.Integer, db.ForeignKey('agent.agent_id'))  
     
     #set relationships
     reviewby = db.relationship("User", back_populates="user_reviews")
@@ -74,4 +95,6 @@ class Agent(db.Model):
     agent_no=db.Column(db.String(120),nullable=True)
     agent_location=db.Column(db.String(120),nullable=True)
     #set relationhips
+    properties = db.relationship('Property', backref='agent', lazy=True)
     agentreviews = db.relationship("Reviews", back_populates="thepro",cascade="all, delete-orphan")
+   # props = db.relationship('Property', backref='agent')

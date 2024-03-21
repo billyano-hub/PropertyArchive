@@ -154,10 +154,10 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">LISTING</a>
             <div class="dropdown-menu">
-              <a class="dropdown-item " href="#">Duplex</a>
-              <a class="dropdown-item " href="#">Bungalow</a>
-              <a class="dropdown-item " href="#">Offices</a>
-              <a class="dropdown-item " href="#">Warehouse</a>
+              <a class="dropdown-item " href="#">Houses</a>
+              <a class="dropdown-item " href="#">Land</a>
+              <a class="dropdown-item " href="#">Shortlet</a>
+              <a class="dropdown-item " href="#">Warehouse/offices</a>
             </div>
           </li>
           <li class="nav-item">
@@ -177,7 +177,8 @@
                 My Account
               </a></h5>
               <ul class="dropdown-menu text-small">
-                
+
+                <li><a class="dropdown-item" href="{{url_for('dashboard')}}" class="dropdown-divider">Dashboard</a></li>
                 <li><a class="dropdown-item" href="{{url_for('myprofile')}}">Profile</a></li>
     
                 <li><a class="dropdown-item" href="#">Edit Password</a></li>
@@ -270,7 +271,8 @@
             </div>
             <div class="w-body-a">
                 <ul class="list-unstyled">
-                    <li class="item-list-a">
+                    <li cla
+                    ss="item-list-a">
                       <i class="bi bi-chevron-right"></i> <a href="#">Apartment For Rent</a>
                     </li>
                     <li class="item-list-a">

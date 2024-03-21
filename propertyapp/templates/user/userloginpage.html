@@ -33,7 +33,8 @@
       <label for="floatingPassword">Password</label>
     </div>
     <div class="form-floating">
-      <p>Don't have account? <a href="{{url_for('register')}}">Signup</a></p>
+      <p>Don't have account? <a href="{{url_for('register')}}">Signup</a>    <span class="px-5 text-bg-danger"><a href="{{url_for('forgot_password')}}">Forget Password?</a></span></p>
+      
     </div>
      
     <button class="w-100 btn btn-lg btn-danger" type="submit">Sign in</button>

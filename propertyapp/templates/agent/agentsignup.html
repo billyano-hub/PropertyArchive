@@ -18,6 +18,17 @@
 {% endblock style%}
 {%block body%}class="text-center"{%endblock body%}
 {% block pro%}
+
+{% set m = get_flashed_messages(with_categories=True) %}
+  {%if m: %}
+  {% for cat,msg in m %}
+      {% if cat == "error" %}
+      <div class="alert alert-danger text-center">{{msg}} </div>
+      {% else %}
+      <div class="alert alert-info text-center">{{msg}} </div>
+      {%endif%}
+  {%endfor %}
+  {%endif%}
       <main class="form-signin w-100 m-auto text-center">
       
 

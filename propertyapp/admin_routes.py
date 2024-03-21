@@ -4,8 +4,41 @@ from werkzeug.security import generate_password_hash,check_password_hash
 
 # local imports
 from propertyapp import app,csrf
-from propertyapp.models import db,Admin
+from propertyapp.models import db,Admin,User,Agent
 from propertyapp.forms import *
+
+@app.route("/admin/delet/<id>/")
+def agent_delete(id):
+    
+    agent=db.session.query(Agent).get_or_404(id)
+   
+
+    db.session.delete(agent)
+    db.session.commit()
+    flash("agent has been deleted!")
+    return redirect(url_for("all_users"))
+
+@app.route("/admin/delete/<id>/")
+def user_delete(id):
+    user=db.session.query(User).get_or_404(id)
+    
+   
+    db.session.delete(user)
+
+    db.session.commit()
+    flash("user has been deleted!")
+    return redirect(url_for("all_users"))
+
+@app.route("/admin/users/")
+def all_users():
+    if session.get("adminuser")==None or session.get('role') !='admin':#means he is not logged in'
+        return redirect(url_for('admin_login'))
+    else:
+    
+        users = db.session.query(User).all()
+        agents =db.session.query(Agent).all()
+        return render_template("admin/allusers.html",users=users,agents=agents)
+    
 @app.route("/admin/dashboard")
 def admin_dashboard():
     if session.get("adminuser")==None or session.get('role') !='admin':#means he is not logged in'
@@ -37,10 +70,11 @@ def admin_login():
                 if check:#it is in db, save session
                         session["adminuser"]=check.admin_id
                         session['role']='admin'
-                        return "your are now signed in"
+                        return redirect(url_for("admin_dashboard"))
                 else:#id=if not, save message in flash, redirect to login again
                         flash('Invalid Login',category='error')
                 return render_template('admin/adminlogin.html')
+
 
        
 
